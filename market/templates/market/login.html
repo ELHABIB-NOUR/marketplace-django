@@ -1,0 +1,20 @@
+{% extends 'market/base.html' %}
+{% block content %}
+    <div class="w-1/2 mx-auto mt-10 p-6 bg-gray-100 rounded-xl">
+        <h2 class="text-2xl font-bold mb-4">Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label  class="inline-block mb-2" for="username">Username:</label>
+            {{ form.username }}
+            </div>
+            <div class="mb-3">
+                <label class="inline-block mb-2"  for="password">Password:</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="bg-teal-500 text-white py-2 px-4 rounded hover:bg-teal-700">Login</button>
+        </form>
+    </div>
+
+{% endblock %}

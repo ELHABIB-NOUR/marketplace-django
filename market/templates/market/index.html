@@ -1,0 +1,175 @@
+
+{% extends 'market/base.html' %}
+
+{% block title %}Marketplace{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Welcome Banner -->
+    <section class="bg-gradient-to-r from-teal-600 to-teal-400 rounded-2xl p-8 md:p-12 mb-10 text-white">
+        <div class="max-w-2xl">
+            <p class="text-teal-100 font-semibold mb-3">
+                YOUR MARKETPLACE
+            </p>
+
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">
+                Find your next favorite thing.
+            </h1>
+
+            <p class="text-teal-50 text-lg mb-6">
+                Explore products from our community or list something of your own.
+            </p>
+
+            <div class="flex flex-wrap gap-3">
+                <a href="{% url 'browse' %}"
+   class="bg-white text-teal-700 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100">
+    Browse Products
+</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'items:newp' %}"
+                       class="bg-teal-800 text-white font-semibold px-6 py-3 rounded-xl hover:bg-teal-900">
+                        + Sell an Item
+                    </a>
+                {% else %}
+                    <a href="{% url 'singup' %}"
+                       class="bg-teal-800 text-white font-semibold px-6 py-3 rounded-xl hover:bg-teal-900">
+                        Join the Marketplace
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Product Section -->
+    <section id="products" class="mb-12">
+
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">
+                    Explore Products
+                </h2>
+                <p class="text-gray-500 mt-1">
+                    Discover what's available in the marketplace.
+                </p>
+            </div>
+
+            <span class="text-sm text-gray-500">
+                {{ products.count }} products
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            {% for product in products %}
+                <a href="{% url 'items:detail' product.id %}"
+                   class="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition duration-200">
+
+                    <!-- Product Image -->
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}"
+                             alt="{{ product.name }}"
+                             class="w-full h-52 object-cover group-hover:scale-105 transition duration-200">
+                    {% else %}
+                        <div class="w-full h-52 bg-gray-100 flex items-center justify-center">
+                            <span class="text-gray-400">No image available</span>
+                        </div>
+                    {% endif %}
+
+                    <!-- Product Details -->
+                    <div class="p-5">
+                        <div class="flex justify-between items-start gap-3">
+                            <h3 class="text-lg font-bold text-gray-800 group-hover:text-teal-600">
+                                {{ product.name }}
+                            </h3>
+
+                            {% if product.is_sold %}
+                                <span class="shrink-0 text-xs font-semibold bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
+                                    Sold
+                                </span>
+                            {% else %}
+                                <span class="shrink-0 text-xs font-semibold bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                                    Available
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <p class="text-teal-600 text-xl font-bold mt-3">
+                            ${{ product.price|floatformat:2 }}
+                        </p>
+
+                        <div class="border-t border-gray-100 mt-4 pt-3">
+                            <span class="text-sm text-gray-500">
+                                View product →
+                            </span>
+                        </div>
+                    </div>
+
+                </a>
+            {% empty %}
+                <div class="col-span-full bg-white border border-gray-200 rounded-xl p-10 text-center">
+                    <h3 class="text-xl font-bold text-gray-800">
+                        No products available yet
+                    </h3>
+                    <p class="text-gray-500 mt-2">
+                        Be the first to add a product to the marketplace.
+                    </p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+
+    <!-- Categories Section -->
+    <section class="bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8">
+
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">
+                Browse Categories
+            </h2>
+            <p class="text-gray-500 mt-1">
+                Find products by exploring their categories.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+
+            {% for category in categories %}
+                <a href="{% url 'browse' %}?category={{ category.id }}"
+                   class="bg-white border border-gray-200 p-5 rounded-xl hover:border-teal-400 hover:shadow-md transition">
+
+                    <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-xl font-bold">
+                            {{ category.name|first|upper }}
+                        </span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-gray-800">
+                        {{ category.name|title }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        {{ category.products.count }} items
+                    </p>
+
+                    <p class="text-teal-600 text-sm font-semibold mt-4">
+                        Explore →
+                    </p>
+                </a>
+            {% empty %}
+                <p class="text-gray-500">
+                    No categories available yet.
+                </p>
+            {% endfor %}
+
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}
+```

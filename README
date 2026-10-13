@@ -1,0 +1,48 @@
+# Django Marketplace
+
+A web marketplace built with Django where users can browse products and manage their own listings.
+
+## Features
+
+- User registration and login
+- Browse and view product listings
+- Create and delete product listings
+- Mark products as sold
+
+## Tech Stack
+
+- Python
+- Django
+- SQLite (development database)
+- HTML and CSS
+
+## Requirements
+
+- Python 3
+- pip
+
+## Installation
+
+1. Clone this repository.
+2. Create and activate a virtual environment.
+3. Install the dependencies.
+4. Configure the required environment variables.
+5. Apply database migrations.
+6. Start the development server.
+
+```bash
+python -m venv .venv
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Activate the virtual environment before installing dependencies and running Django.
+
+## Configuration
+
+Create a local `.env` file containing the required environment variables. Refer to `.env.example` for the variable names. Never commit real credentials or secret keys.
+
+## Status
+
+This project is under development as a learning project.

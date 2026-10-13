@@ -1,0 +1,185 @@
+```django
+{% extends 'market/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Welcome back, {{ request.user.username }}!
+            </h1>
+            <p class="text-gray-500 mt-2">
+                Here's an overview of your marketplace activity.
+            </p>
+        </div>
+
+        <a href="{% url 'items:newp' %}"
+           class="mt-4 md:mt-0 px-5 py-3 bg-teal-500 text-white font-semibold rounded-xl hover:bg-teal-700">
+            + Add New Product
+        </a>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+        <div class="bg-teal-50 border border-teal-100 p-6 rounded-xl">
+            <p class="text-teal-700 font-semibold">Total Products</p>
+            <h2 class="text-3xl font-bold mt-3 text-gray-800">
+                {{ products.count }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-2">Products you've listed</p>
+        </div>
+
+        <div class="bg-green-50 border border-green-100 p-6 rounded-xl">
+            <p class="text-green-700 font-semibold">Active Listings</p>
+            <h2 class="text-3xl font-bold mt-3 text-gray-800">
+                {{ active_products }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-2">Available to buyers</p>
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 p-6 rounded-xl">
+            <p class="text-orange-700 font-semibold">Sold Products</p>
+            <h2 class="text-3xl font-bold mt-3 text-gray-800">
+                {{ sold_products }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-2">Items sold so far</p>
+        </div>
+
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- My Products -->
+        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-6">
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">My Products</h2>
+                <span class="text-sm text-gray-500">
+                    {{ products.count }} items
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+
+                {% for product in products %}
+                <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition">
+
+                    <a href="{% url 'items:detail' product.id %}">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}"
+                                 alt="{{ product.name }}"
+                                 class="w-full h-44 object-cover">
+                        {% else %}
+                            <div class="w-full h-44 bg-gray-100 flex items-center justify-center">
+                                <span class="text-gray-400">No image available</span>
+                            </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 truncate">
+                            {{ product.name }}
+                        </h3>
+
+                        <p class="text-teal-600 font-semibold mt-2">
+                            ${{ product.price|floatformat:2 }}
+                        </p>
+
+                        <div class="flex justify-between items-center mt-4">
+                            {% if product.is_sold %}
+                                <span class="px-3 py-1 text-xs font-semibold bg-orange-100 text-orange-700 rounded-full">
+                                    Sold
+                                </span>
+                            {% else %}
+                                <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">
+                                    Active
+                                </span>
+                            {% endif %}
+
+                            <a href="{% url 'items:detail' product.id %}"
+                               class="text-teal-600 text-sm font-semibold hover:text-teal-800">
+                                View →
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                {% empty %}
+                    <div class="col-span-full text-center py-12">
+                        <h3 class="text-lg font-semibold text-gray-700">
+                            No products yet
+                        </h3>
+                        <p class="text-gray-500 mt-2 mb-5">
+                            Start selling by adding your first product.
+                        </p>
+                        <a href="{% url 'items:new_product' %}"
+                           class="px-5 py-3 bg-teal-500 text-white rounded-xl hover:bg-teal-700">
+                            Add Your First Product
+                        </a>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+
+            <!-- Quick Actions -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-5">
+                    Quick Actions
+                </h2>
+
+                <div class="space-y-3">
+                    <a href="{% url 'items:newp' %}"
+                       class="block text-center bg-teal-500 text-white font-semibold py-3 rounded-lg hover:bg-teal-700">
+                        + Add New Product
+                    </a>
+
+                    <a href="/"
+                       class="block text-center bg-gray-100 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-200">
+                        Browse Marketplace
+                    </a>
+
+                    <a href="{% url 'logout_view' %}"
+                       class="block text-center border border-gray-200 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-50">
+                        Log Out
+                    </a>
+                </div>
+            </div>
+
+            <!-- Account Info -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-5">
+                    Account Info
+                </h2>
+
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500">Username</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ request.user.username }}
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Email</p>
+                    <p class="font-semibold text-gray-800 break-words">
+                        {{ request.user.email|default:"No email provided" }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+```
+

@@ -1,0 +1,32 @@
+{% extends 'market/base.html' %}
+    
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Add New Product</h1>
+
+<form method="POST" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+      <div class="mb-3">
+                <label class="inline-block mb-2" for="category">category:</label>
+                {{ form.category }}
+            </div>
+            <div class="mb-3">
+                <label class="inline-block mb-2" for="name">name:</label>
+                {{ form.name }}
+            </div>
+            <div class="mb-3">
+                <label class="inline-block mb-2"   for="description">description :</label>
+                {{ form.description }}
+            </div>
+            <div class="mb-3">
+                <label for="price">Price:</label>
+                {{ form.price }}
+            </div>
+             <div class="mb-3">
+                <label for="image">Image:</label>
+                {{ form.image }}
+            </div>
+          
+    <button type="submit" class="mt-6 px-8 py-4 text-lg  bg-teal-500 rounded-xl text-white hover:bg-teal-700">Add Product</button>
+</form>
+{% endblock %}
+

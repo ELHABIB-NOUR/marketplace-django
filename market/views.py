@@ -25,7 +25,7 @@ def signup(request):
     form=SignupForm()
 
 
-    return render(request,'market/singup.html',{'form':form})
+    return render(request,'market/signup.html',{'form':form})
 def login(request):
     form=loginForm()
 

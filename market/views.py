@@ -15,7 +15,7 @@ def index(request):
 def contact(request):
     return render(request,'market/contact.html')
 
-def singup(request):
+def signup(request):
     if request.method=='POST':
        form=SignupForm(request.POST)
        if form.is_valid():

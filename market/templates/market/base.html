@@ -20,7 +20,7 @@
                  <a href="{% url 'logout_view' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl text-white hover:bg-gray-700">Logout</a>
             <a href="{% url 'dashboard' %}  " class="px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl text-white hover:bg-gray-700">dashboard</a>
             {% else %}
-           <a href="{% url 'singup' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl text-white hover:bg-teal-700">Sign up</a>
+           <a href="{% url 'signup' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl text-white hover:bg-teal-700">Sign up</a>
             <a href="{% url 'login'%}" class="px-6 py-3 text-lg font-semibold bg-teal-500 rounded-xl text-white hover:bg-gray-700">Log in</a>
             {% endif %}
         </div>
